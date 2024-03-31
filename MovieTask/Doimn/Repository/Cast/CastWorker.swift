@@ -6,3 +6,36 @@
 //
 
 import Foundation
+
+enum CastNetworking: TargetType {
+    case cast(id: Int)
+}
+
+extension CastNetworking {
+    var path: String {
+        switch self {
+        case .cast(let id):
+            return "movie/\(id)/credits"
+        }
+    }
+    
+    var method: HTTPMethod {
+        switch self{
+        case .cast:
+            return .get
+        }
+    }
+    
+    var task: Task {
+        switch self{
+        case .cast:
+            return .requestPlain
+        }
+    }
+    
+    var headers: [String : String] {
+        return [:]
+    }
+}
+
+

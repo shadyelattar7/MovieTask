@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+struct TrailerResponse: Codable {
+    var results: [VideoDetails]
+    
+}
+
+struct VideoDetails: Codable {
+    var key: String
+}
+
+

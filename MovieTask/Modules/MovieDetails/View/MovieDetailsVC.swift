@@ -7,23 +7,79 @@
 
 import UIKit
 
-class MovieDetailsVC: UIViewController {
+class MovieDetailsVC: BaseWireFrame<MovieDetailsViewModel> {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+    //MARK: - @IBOutlet
+    @IBOutlet weak var posterImage: UIImageView!
+    @IBOutlet weak var rateLabel: UILabel!
+    @IBOutlet weak var genresLabel: UILabel!
+    @IBOutlet weak var movieNameLabel: UILabel!
+    @IBOutlet weak var descripationLable: UILabel!
+    @IBOutlet weak var castCollectionView: UICollectionView!
+    
+    override func bind(viewModel: MovieDetailsViewModel) {
+        viewModel.movieGenres.bind { [weak self] genres in
+            DispatchQueue.main.async {
+                self?.updateGenresLabel(with: genres)
+            }
+        }
+        
+        viewModel.cast.bind { [weak self] _ in
+            DispatchQueue.main.async {
+                self?.castCollectionView.reloadData()
+            }
+        }
+        
+        viewModel.viewDidLoad()
+        setupUI()
+        setupCollectionView()
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    //MARK: - Private func
+    private func setupUI() {
+        let poster = "https://image.tmdb.org/t/p/w342/\(viewModel.movieDetails.poster_path ?? "")"
+        let posterURL = URL(string: poster)
+        let roundedVoteAverage = (viewModel.movieDetails.vote_average * 10).rounded() / 10
+        
+        posterImage.setImage(with: posterURL)
+        rateLabel.text = "\(roundedVoteAverage)"
+        movieNameLabel.text = viewModel.movieDetails.title
+        descripationLable.text = viewModel.movieDetails.overview
     }
-    */
+    
+    private func updateGenresLabel(with genres: [String]) {
+        genresLabel.text = genres.joined(separator: ", ")
+    }
+    
+    private func setupCollectionView() {
+        castCollectionView.delegate = self
+        castCollectionView.dataSource = self
+        castCollectionView.registerNIB(CastCell.self)
+    }
+    
+    //MARK: - @IBAction
+    @IBAction func playTapped(_ sender: Any) {
+    }
+    
+    @IBAction func backTapped(_ sender: Any) {
+        self.navigationController?.popViewController(animated: true)
+    }
+}
 
+//MARK: - Collection View Delegation and Data Source
+extension MovieDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.numberOfChartacters()
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeue(cell: CastCell.self, for: indexPath)
+        viewModel.configrationCell(cell, index: indexPath.row)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.frame.size.width / 3, height: 170)
+    }
 }

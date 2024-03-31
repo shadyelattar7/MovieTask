@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct CastCellAdapter {
+    var character: String
+    var name: String
+    var profile_path: String?
+}

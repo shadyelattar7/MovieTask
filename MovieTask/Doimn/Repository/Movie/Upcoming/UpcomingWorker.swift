@@ -6,3 +6,34 @@
 //
 
 import Foundation
+
+enum UpcomingNetworking: TargetType {
+    case upcoming
+}
+
+extension UpcomingNetworking {
+    var path: String {
+        switch self {
+        case .upcoming:
+            return "movie/upcoming"
+        }
+    }
+    
+    var method: HTTPMethod {
+        switch self{
+        case .upcoming:
+            return .get
+        }
+    }
+    
+    var task: Task {
+        switch self{
+        case .upcoming:
+            return .requestPlain
+        }
+    }
+    
+    var headers: [String : String] {
+        return [:]
+    }
+}

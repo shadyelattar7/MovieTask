@@ -6,30 +6,99 @@
 //
 
 import XCTest
+@testable import MovieTask 
 
-final class PopularViewModelTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-    }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+class PopularViewModelTests: XCTestCase {
+    
+    // MARK: - Test Doubles
+    
+    class MockPopularWorker: PopularWorkerProtocol {
+        var shouldSucceed: Bool = true
+        
+        func popular(completion: @escaping (Result<MovieResponse, APIError>) -> Void) {
+            if shouldSucceed {
+                // Simulate a successful response
+                let movies = MovieResponse(results: [MovieData(id: 1, title: "Movie 1", overview: "", poster_path: nil, backdrop_path: nil, vote_average: 7.5, release_date: "2023-01-01", original_title: "")])
+                completion(.success(movies))
+            } else {
+                // Simulate a failure response
+                completion(.failure(.networkError("Mock error")))
+            }
         }
     }
-
+    
+    // MARK: - Properties
+    
+    var viewModel: PopularViewModel!
+    var mockWorker: MockPopularWorker!
+    
+    // MARK: - Setup and Teardown
+    
+    override func setUp() {
+        super.setUp()
+        mockWorker = MockPopularWorker()
+        viewModel = PopularViewModel(movies: mockWorker)
+    }
+    
+    override func tearDown() {
+        viewModel = nil
+        mockWorker = nil
+        super.tearDown()
+    }
+    
+    // MARK: - Test Cases
+    
+    func testNumberOfMovies() {
+        // Given
+        viewModel.movies.value = [
+            MovieData(
+                id: 1,
+                title: "Movie 1",
+                overview: "",
+                poster_path: nil,
+                backdrop_path: nil,
+                vote_average: 7.5,
+                release_date: "2023-01-01",
+                original_title: ""
+            ),
+            MovieData(
+                id: 2,
+                title: "Movie 2",
+                overview: "",
+                poster_path: nil,
+                backdrop_path: nil,
+                vote_average: 8.0,
+                release_date: "2023-01-02",
+                original_title: ""
+            )
+        ]
+        
+        // When
+        let count = viewModel.numberOfMovies()
+        
+        // Then
+        XCTAssertEqual(count, 2, "Number of movies should match the count of movies in the view model")
+    }
+    
+    func testGetPopularSuccess() {
+        // Given
+        mockWorker.shouldSucceed = true
+        
+        // When
+        viewModel.viewDidLoad()
+        
+        // Then
+        XCTAssertEqual(viewModel.numberOfMovies(), 1, "Number of movies should be updated after successful API call")
+    }
+    
+    func testGetPopularFailure() {
+        // Given
+        mockWorker.shouldSucceed = false
+        
+        // When
+        viewModel.viewDidLoad()
+        
+        // Then
+        XCTAssertEqual(viewModel.numberOfMovies(), 0, "Number of movies should not change after failed API call")
+    }
 }

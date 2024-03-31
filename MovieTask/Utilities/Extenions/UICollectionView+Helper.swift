@@ -5,4 +5,33 @@
 //  Created by Al-attar on 29/03/2024.
 //
 
-import Foundation
+import UIKit
+
+extension UICollectionView {
+    
+    func registerNIB<Cell: UICollectionViewCell>(_: Cell.Type) {
+        let identifier = String(describing: Cell.self)
+        self.register(UINib(nibName: identifier, bundle: nil), forCellWithReuseIdentifier: identifier)
+    }
+    
+    func dequeue<Cell: UICollectionViewCell>(cell: Cell.Type, for index: IndexPath) -> Cell {
+        let identifier = String(describing: cell.self)
+        guard let cell = dequeueReusableCell(withReuseIdentifier: identifier, for: index) as? Cell else {
+            fatalError("Unable to Dequeue Reusable Collection View Cell with identifier: \(identifier)")
+        }
+        return cell
+    }
+}
+
+extension UICollectionView{
+    func resizeItem(width: CGFloat? = nil, height: CGFloat? = nil){
+        if let layout = self.collectionViewLayout as? UICollectionViewFlowLayout{
+            if let width = width {
+                layout.itemSize.width = width
+            }
+            if let height = height {
+                layout.itemSize.height = height
+            }
+        }
+    }
+}

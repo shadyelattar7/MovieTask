@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+struct CastResponse: Codable{
+    var cast: [CastDetails]
+}
+
+
+struct CastDetails: Codable {
+    var character: String
+    var name: String
+    var profile_path: String?
+}

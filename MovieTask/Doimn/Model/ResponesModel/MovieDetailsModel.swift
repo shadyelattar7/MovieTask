@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct MovieDetailsModel {
+    let id: Int
+    let title: String
+    let overview: String
+    let poster_path: String?
+    let vote_average: Double
+}
+
