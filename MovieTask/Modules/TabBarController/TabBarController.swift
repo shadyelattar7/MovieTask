@@ -24,8 +24,6 @@ class TabBarController: UITabBarController {
     
     enum TabBarItem:Int, CaseIterable{
         case nowPlaying
-        case popular
-        case upcoming
     }
     
     override func viewDidLoad() {
@@ -53,14 +51,6 @@ class TabBarController: UITabBarController {
             let view = coordinator.Main.viewcontroller(for: .nowPlaying)
             view.tabBarItem = tabBarItem(for: item)
             return view
-        case .popular:
-            let view = coordinator.Main.viewcontroller(for: .popular)
-            view.tabBarItem = tabBarItem(for: item)
-            return view
-        case .upcoming:
-            let view = coordinator.Main.viewcontroller(for: .upcoming)
-            view.tabBarItem = tabBarItem(for: item)
-            return view
         }
     }
     
@@ -71,30 +61,10 @@ class TabBarController: UITabBarController {
             tabBarItem = .init(
                 title: "Now Playing",
                 image: #imageLiteral(
-                    resourceName: "UnselectStory"
+                    resourceName: "home"
                 ),
                 selectedImage: #imageLiteral(
-                    resourceName: "UnselectStory"
-                )
-            )
-        case .popular:
-            tabBarItem = .init(
-                title: "Popular",
-                image: #imageLiteral(
-                    resourceName: "UnselectStory"
-                ),
-                selectedImage: #imageLiteral(
-                    resourceName: "UnselectStory"
-                )
-            )
-        case .upcoming:
-            tabBarItem = .init(
-                title: "Upcoming",
-                image: #imageLiteral(
-                    resourceName: "UnselectStory"
-                ),
-                selectedImage: #imageLiteral(
-                    resourceName: "UnselectStory"
+                    resourceName: "home"
                 )
             )
         }

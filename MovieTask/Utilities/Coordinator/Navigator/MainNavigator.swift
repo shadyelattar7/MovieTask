@@ -15,8 +15,6 @@ class MainNavigator: Navigator {
     
     enum Destination {
         case nowPlaying
-        case popular
-        case upcoming
         case MovieDetails(movieDetails: MovieDetailsModel)
     }
     
@@ -31,14 +29,6 @@ class MainNavigator: Navigator {
             let movieRepo = MovieWorker()
             let viewModel = NowPlayingViewModel(movies: movieRepo)
             return NowPlayingVC(viewModel: viewModel, coordinator: coordinator)
-        case .popular:
-            let movieRepo = PopularWorker()
-            let viewModel = PopularViewModel(movies: movieRepo)
-            return PopularVC(viewModel: viewModel, coordinator: coordinator)
-        case .upcoming:
-            let movieRepo = UpcomingWorker()
-            let viewModel = UpcomingViewModel(movies: movieRepo)
-            return UpcomingVC(viewModel: viewModel, coordinator: coordinator)
         case .MovieDetails(let movieDetails):
             let trailerRepo = TrailerWorker()
             let genresRepo = GenresWorker()

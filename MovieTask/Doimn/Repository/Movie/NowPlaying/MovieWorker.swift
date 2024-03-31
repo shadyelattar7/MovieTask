@@ -15,7 +15,7 @@ extension MovieNetworking {
     var path: String {
         switch self {
         case .nowPlaying:
-            return "movie/now_playing"
+            return "discover/movie"
         }
     }
     

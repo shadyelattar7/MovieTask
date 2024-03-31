@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import youtube_ios_player_helper
 
 class MovieDetailsVC: BaseWireFrame<MovieDetailsViewModel> {
 
@@ -15,18 +16,28 @@ class MovieDetailsVC: BaseWireFrame<MovieDetailsViewModel> {
     @IBOutlet weak var genresLabel: UILabel!
     @IBOutlet weak var movieNameLabel: UILabel!
     @IBOutlet weak var descripationLable: UILabel!
+    @IBOutlet weak var trailerViedo: YTPlayerView!
     @IBOutlet weak var castCollectionView: UICollectionView!
     
     override func bind(viewModel: MovieDetailsViewModel) {
         viewModel.movieGenres.bind { [weak self] genres in
+            guard let self = self else { return }
             DispatchQueue.main.async {
-                self?.updateGenresLabel(with: genres)
+                self.updateGenresLabel(with: genres)
             }
         }
         
         viewModel.cast.bind { [weak self] _ in
+            guard let self = self else { return }
             DispatchQueue.main.async {
-                self?.castCollectionView.reloadData()
+                self.castCollectionView.reloadData()
+            }
+        }
+        
+        viewModel.videoKey.bind { [weak self] key in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.trailerViedo.load(withVideoId: key)
             }
         }
         
@@ -57,10 +68,7 @@ class MovieDetailsVC: BaseWireFrame<MovieDetailsViewModel> {
         castCollectionView.registerNIB(CastCell.self)
     }
     
-    //MARK: - @IBAction
-    @IBAction func playTapped(_ sender: Any) {
-    }
-    
+    //MARK: - @IBAction    
     @IBAction func backTapped(_ sender: Any) {
         self.navigationController?.popViewController(animated: true)
     }
@@ -80,6 +88,6 @@ extension MovieDetailsVC: UICollectionViewDelegate, UICollectionViewDataSource, 
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width / 3, height: 170)
+        return CGSize(width: (collectionView.frame.size.width / 3 ), height: 170)
     }
 }

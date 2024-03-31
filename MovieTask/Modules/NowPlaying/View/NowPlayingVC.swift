@@ -15,6 +15,7 @@ class NowPlayingVC: BaseWireFrame<NowPlayingViewModel> {
     //MARK: - @IBOutlet
     @IBOutlet weak var movieCollectionView: UICollectionView!
     
+    //MARK: - Bind
     override func bind(viewModel: NowPlayingViewModel) {
         viewModel.viewDidLoad()
         
@@ -26,6 +27,8 @@ class NowPlayingVC: BaseWireFrame<NowPlayingViewModel> {
         
         setupCollectionView()
     }
+    
+
     
     private func setupCollectionView() {
         movieCollectionView.delegate = self

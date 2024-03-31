@@ -26,6 +26,7 @@ class MovieDetailsViewModel: BaseViewModel, MovieDetailsInputs, MovieDetailsOutp
     var cast: Box<[CastDetails]> = Box([])
     var genresId: Box<[GenresDetails]> = Box([])
     var movieGenres: Box<[String]> = Box([])
+    var videoKey: Box<String> = Box("")
     
     //MARK: - Private Properties
     private let trailerRepo: TrailerWorkerProtocol
@@ -63,8 +64,8 @@ class MovieDetailsViewModel: BaseViewModel, MovieDetailsInputs, MovieDetailsOutp
             guard let self = self else { return }
             switch result {
             case .success(let trailer):
-                print("trailer: \(trailer.results)")
                 self.trailer.value = trailer.results
+                self.videoKey.value = self.trailer.value.first?.key ?? ""
             case .failure(let error):
                 print("Error fetching trailer:", error)
             }
@@ -76,7 +77,6 @@ class MovieDetailsViewModel: BaseViewModel, MovieDetailsInputs, MovieDetailsOutp
             guard let self = self else { return }
             switch result {
             case .success(let cast):
-                print("Cast: \(cast.cast)")
                 self.cast.value = cast.cast
             case .failure(let error):
                 print("Error fetching cast:", error)

@@ -2,8 +2,10 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -28,16 +30,29 @@
                         <inset key="sectionInset" minX="0.0" minY="0.0" maxX="20" maxY="0.0"/>
                     </collectionViewFlowLayout>
                 </collectionView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Home" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bcV-CS-9Wf">
+                    <rect key="frame" x="20" y="40" width="83.5" height="36"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
+                    <color key="textColor" systemColor="systemRedColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
             <color key="backgroundColor" red="0.12941176470588234" green="0.12941176470588234" blue="0.12941176470588234" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="2zk-an-qsT" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="5Fc-ew-HmX"/>
                 <constraint firstItem="2zk-an-qsT" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="100" id="a2l-B4-U15"/>
+                <constraint firstItem="bcV-CS-9Wf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="20" id="eje-6E-yaI"/>
+                <constraint firstItem="bcV-CS-9Wf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" constant="20" id="k1t-fs-wkS"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="2zk-an-qsT" secondAttribute="bottom" id="qFe-BZ-rmD"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="2zk-an-qsT" secondAttribute="trailing" id="sH0-Xz-MnG"/>
             </constraints>
             <point key="canvasLocation" x="100" y="21"/>
         </view>
     </objects>
+    <resources>
+        <systemColor name="systemRedColor">
+            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>
